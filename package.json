@@ -1,58 +1,34 @@
 {
-    "name": "cppo-actual",
-    "exportedEnvVars": {
-        "CAML_LD_LIBRARY_PATH": {
-            "global": true,
-            "resolveAsRelativePath": true,
-            "globalCollisionBehavior": "joinPath",
-            "val": "./_build/ocamlfind/lib/stublibs"
-        },
-        "version": {
-            "global": true,
-            "globalCollisionBehavior": "clobber",
-            "val": "1.4.1"
-        },
-        "FINDLIB": {
-            "global": true,
-            "resolveAsRelativePath": true,
-            "globalCollisionBehavior": "joinPath",
-            "val": "./_build/ocamlfind/lib"
-        },
-        "cppo_installed": {
-            "global": true,
-            "globalCollisionBehavior": "clobber",
-            "val": "true"
-        },
-        "cppo_enable": {
-            "global": true,
-            "globalCollisionBehavior": "clobber",
-            "val": "enable"
-        },
-        "cppo_version": {
-            "global": true,
-            "globalCollisionBehavior": "clobber",
-            "val": "1.4.1"
-        },
-        "PATH": {
-            "global": true,
-            "resolveAsRelativePath": true,
-            "globalCollisionBehavior": "joinPath",
-            "val": "./_build/ocamlfind/bin"
-        }
-    },
+    "name": "cppo",
     "version": "1.4.1",
     "dependencies": {
-        "@opam-alpha/ocamlfind": "*",
-        "dependency-env": "*",
-        "substs": "https://github.com/yunxing/substs.git",
-        "@opam-alpha/ocamlbuild": "*",
-        "nopam": "*",
-        "opam-installer-bin": "https://github.com/yunxing/opam-installer-bin.git"
+        "ocamlfind": "andreypopp/ocamlfind#esy",
+        "opam-installer-bin": "andreypopp/opam-installer-bin"
     },
-    "scripts": {
-        "postinstall": "eval $(dependencyEnv) && nopam && make opt && make ocamlbuild && make install-lib && (opam-installer --prefix=$opam_prefix || true)"
+    "esy": {
+        "build": [
+            "make opt",
+            "make ocamlbuild",
+            "make BINDIR=$cur__bin install-bin",
+            "make install-lib",
+            "(opam-installer --prefix=$cur__install || true)"
+        ],
+        "exportedEnv": {
+            "cppo_installed": {
+                "scope": "global",
+                "val": "true"
+            },
+            "cppo_enable": {
+                "scope": "global",
+                "val": "enable"
+            },
+            "cppo_version": {
+                "scope": "global",
+                "val": "1.4.1"
+            }
+        }
     },
     "peerDependencies": {
-        "@opam-alpha/ocaml": ">= 4.2.3"
+        "ocaml": "andreypopp/ocaml#esy"
     }
 }
